@@ -11,10 +11,13 @@ public class Block {
 
     private String prev;
 
+    private long nonce;
+
     public Block(ArrayList<Transaction> transactions, long index, long time) {
         this.transactions = transactions;
         this.index = index;
         this.time = time;
+        nonce = 0;
     }
 
     public void setPrev(String prev){
@@ -27,7 +30,7 @@ public class Block {
             transactionHashes += t.getHash();
         }
 
-        String combinedString = transactionHashes + index + time + prev;
+        String combinedString = transactionHashes + index + time + prev + nonce;
 
         MessageDigest digest = null;
 
@@ -51,8 +54,21 @@ public class Block {
         return hexString.toString();
     }
 
+    public void mine(){
+        String hasToStartWith = "11";
+
+        while(!getHash().startsWith(hasToStartWith)){
+            nonce++;
+            System.out.println("trying nonce: " + nonce + ": " + getHash());
+        }
+        System.out.println("Block " + index + " mined with nonce: " + nonce);
+    }
+
     public String toString(){
         String s = "Block(index: " + index + ", time: " + time + ", transactions: " + transactions.size() + ", prev: " + prev + ", hash: " + getHash() + ")";
+        for(Transaction t: transactions){
+            s += "\n" + t.toString();
+        }
 
         return s;
     }

@@ -17,4 +17,17 @@ public class BlockChainTest {
 
         System.out.println(blockChain);
     }
+
+    @Test
+    public void add3TransactionsAndMine(){
+        BlockChain blockChain = new BlockChain();
+        blockChain.addBlock(new Block(new ArrayList<Transaction>(), 0, System.currentTimeMillis()));
+        blockChain.addTransaction("S1", "R1", 50);
+        blockChain.addTransaction("S1", "R2", 80);
+        blockChain.addTransaction("S2", "R2", 10);
+
+        blockChain.minePendingTransactions("S1");
+
+        System.out.println(blockChain);
+    }
 }

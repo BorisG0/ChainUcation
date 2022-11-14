@@ -46,4 +46,8 @@ public class Transaction {
         }
         return hexString.toString();
     }
+
+    public String toString(){
+        return sender + " - " + receiver + ": " + amount + " (" + time + ")";
+    }
 }
