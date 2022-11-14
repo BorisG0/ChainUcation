@@ -30,4 +30,17 @@ public class BlockChainTest {
 
         System.out.println(blockChain);
     }
+
+    @Test
+    public void add25TransactionsAndMine(){
+        BlockChain blockChain = new BlockChain();
+        blockChain.addBlock(new Block(new ArrayList<Transaction>(), 0, System.currentTimeMillis()));
+        for(int i = 0; i < 25; i++){
+            blockChain.addTransaction("Sender1", "Receiver1", i);
+        }
+
+        blockChain.minePendingTransactions("Miner1");
+
+        System.out.println(blockChain);
+    }
 }

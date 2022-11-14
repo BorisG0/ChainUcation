@@ -14,7 +14,9 @@ public class BlockChain {
     }
 
     public void addTransaction(String sender, String receiver, int amount){
-        pendingTransactions.add(new Transaction(sender, receiver, amount));
+        Transaction newTransaction = new Transaction(sender, receiver, amount);
+        pendingTransactions.add(newTransaction);
+        System.out.println("adding Transaction: " + newTransaction);
     }
 
     public boolean minePendingTransactions(String miner){
@@ -24,13 +26,13 @@ public class BlockChain {
 
         for(int i = 0; i < pendingTransactions.size(); i+= MAX_BLOCK_SIZE){
             int end = i + MAX_BLOCK_SIZE;
-            if(end > pendingTransactions.size() - 1){
-                end = pendingTransactions.size() - 1;
+            if(end >= pendingTransactions.size() - 1){
+                end = pendingTransactions.size();
             }
 
             ArrayList<Transaction> transactions = new ArrayList<>(pendingTransactions.subList(i, end));
 
-            Block newBlock = new Block(transactions, System.currentTimeMillis(), blocks.size());
+            Block newBlock = new Block(transactions, blocks.size(), System.currentTimeMillis());
             newBlock.setPrev(blocks.get(blocks.size() - 1).getHash());
             newBlock.mine();
             blocks.add(newBlock);

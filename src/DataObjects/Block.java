@@ -67,7 +67,7 @@ public class Block {
     public String toString(){
         String s = "Block(index: " + index + ", time: " + time + ", transactions: " + transactions.size() + ", prev: " + prev + ", hash: " + getHash() + ")";
         for(Transaction t: transactions){
-            s += "\n" + t.toString();
+            s += "\n    " + t.toString();
         }
 
         return s;
