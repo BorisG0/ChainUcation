@@ -47,6 +47,13 @@ public class Transaction {
         return hexString.toString();
     }
 
+    public boolean isValid(){
+        if(sender.equals(receiver)){
+            return false;
+        }
+        return true;
+    }
+
     public String toString(){
         return sender + " - " + receiver + ": " + amount + " (" + time + ")";
     }

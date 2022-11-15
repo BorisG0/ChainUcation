@@ -1,5 +1,6 @@
 package DataObjects;
 
+import java.security.*;
 import java.util.ArrayList;
 
 public class BlockChain {
@@ -11,6 +12,23 @@ public class BlockChain {
     public BlockChain(){
         this.blocks = new ArrayList<>();
         this.pendingTransactions = new ArrayList<>();
+        addGenesisBlock();
+    }
+
+    public KeyPair generateKeys(){
+        KeyPairGenerator generator = null;
+
+        try {
+            generator = KeyPairGenerator.getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        generator.initialize(2048);
+        KeyPair pair = generator.generateKeyPair();
+        return pair;
+//        PrivateKey privateKey = pair.getPrivate();
+//        PublicKey publicKey = pair.getPublic();
     }
 
     public void addTransaction(String sender, String receiver, int amount){
@@ -45,13 +63,36 @@ public class BlockChain {
         return true;
     }
 
-    public void addBlock(Block block){
-        if(blocks.size() > 0){
-            block.setPrev(blocks.get(blocks.size() - 1).getHash());
-        }else{
-            block.setPrev("none");
+    private void addGenesisBlock(){
+        Block genesis = new Block(new ArrayList<>(), 0, System.currentTimeMillis());
+        genesis.setPrev("none");
+        blocks.add(genesis);
+    }
+
+//    public void addBlock(Block block){
+//        if(blocks.size() > 0){
+//            block.setPrev(blocks.get(blocks.size() - 1).getHash());
+//        }else{
+//            block.setPrev("none");
+//        }
+//        blocks.add(block);
+//    }
+
+    public boolean isValidChain(){
+        for(int i = 1; i < blocks.size(); i++){
+            Block b1 = blocks.get(i - 1);
+            Block b2 = blocks.get(i);
+
+            if(!b1.hasValidTransactions()){
+                return false;
+            }
+
+            if(b2.getHash().equals(b1.getPrev())){
+                return false;
+            }
+
         }
-        blocks.add(block);
+        return true;
     }
 
     public String toString(){

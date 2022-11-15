@@ -24,6 +24,10 @@ public class Block {
         this.prev = prev;
     }
 
+    public String getPrev(){
+        return prev;
+    }
+
     public String getHash(){
         String transactionHashes = "";
         for(Transaction t: transactions){
@@ -62,6 +66,10 @@ public class Block {
             System.out.println("trying nonce: " + nonce + ": " + getHash());
         }
         System.out.println("Block " + index + " mined with nonce: " + nonce);
+    }
+
+    public boolean hasValidTransactions(){
+        return true;
     }
 
     public String toString(){
