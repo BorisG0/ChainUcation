@@ -16,6 +16,24 @@ public class BlockChain implements Serializable {
         addGenesisBlock();
     }
 
+    public int getBalance(String name){
+        int balance = 0;
+
+        for(Block b: blocks){
+            for(Transaction t: b.getTransactions()){
+                if(t.getReceiver().equals(name)){
+                    balance += t.getAmount();
+                }
+
+                if(t.getSender().equals(name)){
+                    balance -= t.getAmount();
+                }
+            }
+        }
+
+        return balance;
+    }
+
     public KeyPair generateKeys(){
         KeyPairGenerator generator = null;
 

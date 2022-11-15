@@ -15,6 +15,8 @@ public class Main {
     public static DatagramSocket socket;
 
     public static BlockChain blockChain;
+
+    public static String senderName = "default";
     public static KeyPair keyPair;
 
     public static void main(String[] args) {
@@ -26,12 +28,16 @@ public class Main {
             e.printStackTrace();
         }
 
-        if(args.length >= 2){
+        if(args.length >= 3){
             port = Integer.parseInt(args[0]);
             destPort = Integer.parseInt(args[1]);
+            senderName = args[2];
         }
 
         System.out.println("starting client on port: " + port + ", destPort: " + destPort);
+        System.out.println("name: " + senderName);
+        System.out.println("public key: " + keyPair.getPublic());
+        System.out.println("private key: " + keyPair.getPrivate());
 
         try {
             socket = new DatagramSocket(port);

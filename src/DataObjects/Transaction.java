@@ -79,6 +79,18 @@ public class Transaction implements Serializable {
         return true;
     }
 
+    public String getSender() {
+        return sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
     public String toString(){
         return sender + " -> " + receiver + ": " + amount + " (" + time + ")";
     }

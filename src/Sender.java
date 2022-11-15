@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.DatagramPacket;
-import java.util.Base64;
 import java.util.Scanner;
 
 public class Sender extends Thread{
@@ -23,10 +22,13 @@ public class Sender extends Thread{
         if(parts[0].equals("m")){
             mine(parts);
         }
+        if(parts[0].equals("b")){
+            printBalance();
+        }
     }
 
     private void createTransaction(String[] params){
-        Main.blockChain.addTransaction(params[1], params[2], Integer.parseInt(params[3]), Main.keyPair, Main.keyPair);
+        Main.blockChain.addTransaction(Main.senderName, params[1], Integer.parseInt(params[2]), Main.keyPair, Main.keyPair);
         System.out.println("Chain:");
         System.out.println(Main.blockChain);
 
@@ -39,7 +41,7 @@ public class Sender extends Thread{
     }
 
     private void mine(String[] params){
-        Main.blockChain.minePendingTransactions("s1");
+        Main.blockChain.minePendingTransactions(Main.senderName);
         System.out.println("Chain:");
         System.out.println(Main.blockChain);
     }
@@ -53,5 +55,9 @@ public class Sender extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void printBalance(){
+        System.out.println("balance: " + Main.blockChain.getBalance(Main.senderName));
     }
 }

@@ -29,6 +29,10 @@ public class Block implements Serializable {
         return prev;
     }
 
+    public ArrayList<Transaction> getTransactions(){
+        return transactions;
+    }
+
     public String getHash(){
         String transactionHashes = "";
         for(Transaction t: transactions){
