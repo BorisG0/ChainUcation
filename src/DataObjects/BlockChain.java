@@ -1,9 +1,10 @@
 package DataObjects;
 
+import java.io.Serializable;
 import java.security.*;
 import java.util.ArrayList;
 
-public class BlockChain {
+public class BlockChain implements Serializable {
     private ArrayList<Block> blocks;
     private ArrayList<Transaction> pendingTransactions;
     private final int MAX_BLOCK_SIZE = 10;
@@ -31,8 +32,14 @@ public class BlockChain {
 //        PublicKey publicKey = pair.getPublic();
     }
 
-    public void addTransaction(String sender, String receiver, int amount){
+    public void addTransaction(String sender, String receiver, int amount, KeyPair key, KeyPair senderKey){
         Transaction newTransaction = new Transaction(sender, receiver, amount);
+
+        newTransaction.sign(key, senderKey);
+        if(!newTransaction.isValid()){
+            return;
+        }
+
         pendingTransactions.add(newTransaction);
         System.out.println("adding Transaction: " + newTransaction);
     }
@@ -100,6 +107,11 @@ public class BlockChain {
 
         for(Block b: blocks){
             s += b.toString() + "\n";
+        }
+
+        s += "pending:\n";
+        for(Transaction t: pendingTransactions){
+            s += t.toString() + "\n";
         }
 
         return s;

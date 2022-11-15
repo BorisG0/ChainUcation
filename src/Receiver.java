@@ -1,3 +1,5 @@
+import DataObjects.BlockChain;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 
@@ -8,8 +10,10 @@ public class Receiver extends Thread{
             try {
                 Main.socket.receive(packet);
                 String data = new String(packet.getData(), 0, packet.getLength());
-                System.out.println(data);
-            } catch (IOException e) {
+
+                BlockChain receivedChain = (BlockChain)Main.From_String(data);
+                System.out.println(receivedChain);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

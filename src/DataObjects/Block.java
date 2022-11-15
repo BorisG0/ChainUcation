@@ -1,10 +1,11 @@
 package DataObjects;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-public class Block {
+public class Block implements Serializable {
     private ArrayList<Transaction> transactions;
     private long index;
     private long time;
