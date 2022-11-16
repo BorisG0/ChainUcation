@@ -16,6 +16,14 @@ public class BlockChain implements Serializable {
         addGenesisBlock();
     }
 
+    public int getBlockAmount(){
+        return blocks.size();
+    }
+
+    public int getPendingTransactionsAmount(){
+        return pendingTransactions.size();
+    }
+
     public int getBalance(String name){
         int balance = 0;
 

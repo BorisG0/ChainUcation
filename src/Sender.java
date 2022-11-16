@@ -25,25 +25,32 @@ public class Sender extends Thread{
         if(parts[0].equals("b")){
             printBalance();
         }
+        if(parts[0].equals("c")){
+            printChain();
+        }
     }
 
     private void createTransaction(String[] params){
         Main.blockChain.addTransaction(Main.senderName, params[1], Integer.parseInt(params[2]), Main.keyPair, Main.keyPair);
         System.out.println("Chain:");
         System.out.println(Main.blockChain);
-
-        try {
-            String data = Main.To_String(Main.blockChain);
-            sendString(data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        sendBlockChain();
     }
 
     private void mine(String[] params){
         Main.blockChain.minePendingTransactions(Main.senderName);
         System.out.println("Chain:");
         System.out.println(Main.blockChain);
+        sendBlockChain();
+    }
+
+    private void sendBlockChain(){
+        try {
+            String data = Main.To_String(Main.blockChain);
+            sendString(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendString(String data){
@@ -55,6 +62,10 @@ public class Sender extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void printChain(){
+        System.out.println(Main.blockChain);
     }
 
     private void printBalance(){

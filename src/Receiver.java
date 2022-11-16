@@ -1,6 +1,5 @@
 import DataObjects.BlockChain;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 
 public class Receiver extends Thread{
@@ -12,7 +11,16 @@ public class Receiver extends Thread{
                 String data = new String(packet.getData(), 0, packet.getLength());
 
                 BlockChain receivedChain = (BlockChain)Main.From_String(data);
-                System.out.println(receivedChain);
+                System.out.println("received chain");
+
+                if(receivedChain.getBlockAmount() > Main.blockChain.getBlockAmount()){
+                    Main.blockChain = receivedChain;
+                }else if((receivedChain.getBlockAmount() == Main.blockChain.getBlockAmount())
+                        && (receivedChain.getPendingTransactionsAmount() > Main.blockChain.getPendingTransactionsAmount())){
+                    Main.blockChain = receivedChain;
+                }
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
